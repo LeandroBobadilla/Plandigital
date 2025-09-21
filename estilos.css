@@ -1,0 +1,100 @@
+/* Tipografía y fondo general */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfaf6; /* fondo cálido */
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Encabezado y pie de página */
+header, footer {
+  background-color: #e0d8c3;
+  text-align: center;
+  padding: 2em;
+}
+
+header h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+footer p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Secciones */
+section {
+  padding: 2em;
+  border-bottom: 1px solid #ddd;
+}
+
+h2 {
+  color: #5a4e3c;
+  margin-bottom: 1em;
+}
+
+/* Listas */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.8em;
+  font-size: 1.1em;
+}
+
+/* Enlaces */
+a {
+  color: #2f6f4e;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Botones visuales */
+.button {
+  display: inline-block;
+  background-color: #2f6f4e;
+  color: #fff;
+  padding: 0.8em 1.2em;
+  margin-top: 1em;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #245c3e;
+}
+
+/* Diseño responsivo para celulares */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 1em;
+  }
+
+  header, footer, section {
+    padding: 1em;
+    text-align: left;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+}
