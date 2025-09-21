@@ -1,404 +1,57 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estrategia de Transformación Profesional</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Tierra Ancestral -->
-    <!-- Application Structure Plan: La aplicación se estructura en 5 secciones temáticas navegables, transformando el informe "Propuesta Integral" en un panel de control interactivo. 1) Visión y Ejes: Presenta los pilares de la nueva marca personal mediante tarjetas interactivas para una exploración clara. 2) Líneas de Negocio: Organiza los productos y servicios en categorías (Guías, Cursos, Consultoría) para mostrar las fuentes de ingreso. 3) Proyectos Territoriales: Dedica un espacio a las parcelas de Canchaque, convirtiéndolas en activos tangibles. 4) Hoja de Ruta: Visualiza los primeros pasos como un proceso secuencial y accionable. 5) Recursos: Centraliza la formación y herramientas. Esta estructura fue elegida para convertir un plan estático en una herramienta dinámica y motivadora, facilitando la comprensión y la acción por parte del usuario. -->
-    <!-- Visualization & Content Choices: Report Info: Ejes temáticos -> Goal: Presentar el core de la marca personal -> Viz/Method: Tarjetas interactivas HTML/CSS/JS -> Interaction: Click para expandir y ver detalles -> Justification: Fomenta la exploración y mantiene la interfaz limpia. | Report Info: Líneas de servicio -> Goal: Mostrar potencial de ingresos diversificados -> Viz/Method: Gráfico de Donut (Chart.js/Canvas) -> Interaction: Hover para ver porcentajes -> Justification: Visualiza rápidamente la mezcla de ingresos. | Report Info: Primeros pasos -> Goal: Crear un plan de acción claro -> Viz/Method: Diagrama de flujo secuencial (HTML/Tailwind) -> Interaction: Estático, visual -> Justification: Simplifica los pasos iniciales y los hace menos abrumadores. | Report Info: Terrenos en Canchaque -> Goal: Materializar oportunidades locales -> Viz/Method: Tarjetas de proyecto detalladas (HTML/Tailwind) -> Interaction: Informativo -> Justification: Conecta el plan digital con activos físicos. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F5F2; /* Warm Neutral Background */
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 40vh;
-        }
-        .card-hover-effect {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover-effect:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .nav-link {
-            position: relative;
-            transition: color 0.3s;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #8D6E63; /* Accent color */
-            transition: width 0.3s;
-        }
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Leandro Bobadilla | Estrategia Territorial y Bienestar</title>
+  <meta name="description" content="Soluciones técnicas y culturales para el desarrollo rural, el turismo vivencial y la educación territorial.">
+  <link rel="stylesheet" href="estilos.css"> <!-- si usas uno -->
 </head>
-<body class="text-stone-800">
+<body>
 
-    <header class="bg-[#F8F5F2]/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-stone-700">Plan de Acción Digital</h1>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#vision" class="nav-link text-stone-600 hover:text-stone-900 font-medium">Visión</a>
-                <a href="#negocios" class="nav-link text-stone-600 hover:text-stone-900 font-medium">Líneas de Negocio</a>
-                <a href="#territorio" class="nav-link text-stone-600 hover:text-stone-900 font-medium">Proyectos Locales</a>
-                <a href="#hoja-de-ruta" class="nav-link text-stone-600 hover:text-stone-900 font-medium">Hoja de Ruta</a>
-                <a href="#recursos" class="nav-link text-stone-600 hover:text-stone-900 font-medium">Recursos</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-stone-700">
-                <span class="w-6 h-0.5 bg-current block mb-1.5"></span>
-                <span class="w-6 h-0.5 bg-current block"></span>
-                <span class="w-6 h-0.5 bg-current block mt-1.5"></span>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#vision" class="block py-2 text-stone-600 hover:text-stone-900">Visión</a>
-            <a href="#negocios" class="block py-2 text-stone-600 hover:text-stone-900">Líneas de Negocio</a>
-            <a href="#territorio" class="block py-2 text-stone-600 hover:text-stone-900">Proyectos Locales</a>
-            <a href="#hoja-de-ruta" class="block py-2 text-stone-600 hover:text-stone-900">Hoja de Ruta</a>
-            <a href="#recursos" class="block py-2 text-stone-600 hover:text-stone-900">Recursos</a>
-        </div>
-    </header>
+  <header>
+    <h1>🌿 Estrategia Territorial con Propósito</h1>
+    <p>Leandro Bobadilla — Profesional con trayectoria en desarrollo rural, turismo cultural y educación técnica.</p>
+  </header>
 
-    <main class="container mx-auto px-6 py-12">
+  <section id="oferta">
+    <h2>🎯 ¿Qué ofrezco?</h2>
+    <ul>
+      <li>Guías técnicas y educativas para comunidades rurales</li>
+      <li>Asesoría en turismo vivencial y narrativas territoriales</li>
+      <li>Diseño de contenidos digitales con enfoque cultural</li>
+      <li>Redacción técnica para ONGs, municipios y proyectos agroecológicos</li>
+    </ul>
+  </section>
 
-        <section id="vision" class="mb-24 text-center">
-            <h2 class="text-4xl font-bold mb-4 text-[#4E342E]">Del Conocimiento a la Acción: Una Nueva Trayectoria</h2>
-            <p class="max-w-3xl mx-auto text-lg text-stone-600 mb-12">
-                Esta es tu estrategia para transformar tu vasta experiencia en productos y servicios digitales. El objetivo es claro: generar ingresos sostenibles, fortalecer tu marca personal y crear un impacto positivo, fusionando tus pasiones por la historia, la naturaleza, el desarrollo rural y el bienestar.
-            </p>
-            
-            <h3 class="text-3xl font-bold mb-8 text-stone-700">Tus Ejes Estratégicos</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">🗺️</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Geomática Aplicada</h4>
-                    </div>
-                    <p class="text-stone-600">La base técnica que potencia todo. No es el fin, sino la herramienta para visualizar y planificar proyectos rurales, turísticos y patrimoniales.</p>
-                </div>
-                
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">🏺</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Historia y Patrimonio</h4>
-                    </div>
-                    <p class="text-stone-600">Tu pasión por las culturas prehispánicas y rutas ancestrales se convierte en narrativas digitales, guías turísticas y contenido educativo único.</p>
-                </div>
+  <section id="productos">
+    <h2>📦 Productos destacados</h2>
+    <ul>
+      <li><strong>Guía Maestra para 1000m²</strong> – Activación productiva y cultural de espacios rurales</li>
+      <li><strong>Manual de Cultivos Ancestrales</strong> – Soberanía alimentaria con identidad</li>
+      <li><strong>Curso: Turismo con Propósito</strong> – Diseño de experiencias vivenciales y espirituales</li>
+    </ul>
+    <p><em>Próximamente disponibles para descarga en esta plataforma.</em></p>
+  </section>
 
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">🌿</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Agricultura y Bienestar</h4>
-                    </div>
-                    <p class="text-stone-600">Promoción de cultivos tradicionales, huertos urbanos y soberanía alimentaria. Un puente entre la salud de la tierra y la salud de las personas.</p>
-                </div>
-                
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">🏞️</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Turismo Consciente</h4>
-                    </div>
-                    <p class="text-stone-600">Diseño de rutas y experiencias que conectan al viajero con el paisaje, la historia y la espiritualidad del territorio. Un turismo con propósito.</p>
-                </div>
+  <section id="blog-redes">
+    <h2>🔗 Conecta y explora más</h2>
+    <p>Descubre reflexiones, avances y recursos en mis canales:</p>
+    <ul>
+      <li><a href="https://senderodelviento.blogspot.com" target="_blank">Blog: Sendero del Viento</a></li>
+      <li><a href="https://www.instagram.com/leandrobobadilla" target="_blank">Instagram</a></li>
+      <li><a href="https://www.facebook.com/leandrobobadilla" target="_blank">Facebook</a></li>
+    </ul>
+  </section>
 
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">✍️</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Educación y Divulgación</h4>
-                    </div>
-                    <p class="text-stone-600">Tu habilidad para la redacción técnica se materializa en guías, manuales, cursos y material formativo para comunidades y organizaciones.</p>
-                </div>
+  <section id="descargas">
+    <h2>📥 Zona de recursos</h2>
+    <p>Accede a guías, fichas y herramientas para activar tu territorio.</p>
+    <a href="https://gumroad.com/leandrobobadilla" target="_blank">Ir a la tienda en Gumroad</a>
+  </section>
 
-                <div class="strategic-card bg-white p-6 rounded-lg shadow-md card-hover-effect cursor-pointer text-left">
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl mr-4">🧘‍♂️</span>
-                        <h4 class="text-xl font-bold text-[#6D4C41]">Espiritualidad y Conexión</h4>
-                    </div>
-                    <p class="text-stone-600">Creación de contenido reflexivo y experiencias que ayuden a otros a encontrar bienestar y conexión interior a través del territorio y sus saberes.</p>
-                </div>
-            </div>
-        </section>
+  <footer>
+    <p>© 2025 Leandro Bobadilla — Estrategia con identidad y bienestar territorial.</p>
+  </footer>
 
-        <section id="negocios" class="mb-24">
-            <h2 class="text-3xl font-bold text-center mb-2 text-[#4E342E]">Líneas de Negocio: Monetiza tu Conocimiento</h2>
-            <p class="text-lg text-stone-600 text-center mb-12 max-w-2xl mx-auto">Aquí es donde tus ejes estratégicos se convierten en fuentes de ingreso. La clave está en la diversificación: productos digitales escalables y servicios de consultoría de alto valor.</p>
-            
-            <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
-                <div class="w-full lg:w-1/2">
-                    <div class="bg-white p-6 rounded-lg shadow-lg space-y-6">
-                        <div>
-                            <h4 class="text-xl font-bold mb-3 text-[#A1887F]">1. Guías y Fichas Técnicas (Productos Digitales)</h4>
-                            <ul class="list-disc list-inside text-stone-600 space-y-2">
-                                <li><b>"Plan Maestro para 1000m²":</b> Guía sobre cómo rentabilizar una pequeña parcela con huerto, turismo y medicina natural.</li>
-                                <li><b>"Cultivos Ancestrales":</b> Manual práctico sobre el cultivo de paico y otras hierbas andinas.</li>
-                                <li><b>"Rutas Arqueológicas":</b> Mapas interactivos, historia y recomendaciones para explorar el patrimonio local.</li>
-                                <li><b>"Google Earth para el Desarrollo Rural":</b> Manual de iniciación para comunidades y ONGs.</li>
-                            </ul>
-                        </div>
-                        <hr class="border-stone-200">
-                        <div>
-                            <h4 class="text-xl font-bold mb-3 text-[#A1887F]">2. Cursos y Talleres Virtuales</h4>
-                            <ul class="list-disc list-inside text-stone-600 space-y-2">
-                                <li><b>"Crea tu Narrativa Digital":</b> Taller para digitalizar y contar historias del patrimonio local.</li>
-                                <li><b>"Diseño de Experiencias de Turismo Rural":</b> Curso breve para emprendedores locales.</li>
-                            </ul>
-                        </div>
-                        <hr class="border-stone-200">
-                         <div>
-                            <h4 class="text-xl font-bold mb-3 text-[#A1887F]">3. Servicios de Consultoría</h4>
-                            <ul class="list-disc list-inside text-stone-600 space-y-2">
-                                <li><b>Mapeo participativo con SIG:</b> Para proyectos turísticos, agrícolas o de ordenamiento territorial.</li>
-                                <li><b>Asesoría en proyectos agro-turísticos:</b> Diseño de rutas y uso sostenible del suelo.</li>
-                                <li><b>Creación de Contenido Técnico:</b> Desarrollo de material educativo para instituciones y ONGs.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full lg:w-1/2">
-                    <h3 class="text-2xl font-bold text-center mb-4 text-stone-700">Fuentes de Ingreso Potenciales</h3>
-                    <div class="chart-container">
-                        <canvas id="incomeChart"></canvas>
-                    </div>
-                     <p class="text-center mt-4 text-stone-600 italic">Un modelo diversificado para mayor estabilidad y crecimiento.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="territorio" class="mb-24 bg-white p-8 md:p-12 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-bold text-center mb-2 text-[#4E342E]">Proyectos Territoriales: Activando Canchaque</h2>
-            <p class="text-lg text-stone-600 text-center mb-12 max-w-3xl mx-auto">Tus parcelas en Canchaque no son solo terrenos, son laboratorios de ideas y futuras fuentes de ingreso que conectan lo digital con lo tangible.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="border-l-4 border-[#8D6E63] pl-6 py-4 bg-stone-50 rounded-r-lg">
-                    <h3 class="text-2xl font-bold mb-3 text-stone-800">Parcela 1: El Bambusal Sostenible</h3>
-                    <p class="text-stone-600 mb-4">La parcela con bambú ya es un activo. Su potencial va más allá de la simple siembra.</p>
-                    <h5 class="font-bold mb-2">Oportunidades a explorar:</h5>
-                    <ul class="list-disc list-inside text-stone-600 space-y-1">
-                        <li><b>Vivero de bambú:</b> Venta de plantones a nivel local y regional.</li>
-                        <li><b>Talleres de construcción sostenible:</b> Cursos prácticos sobre el uso del bambú.</li>
-                        <li><b>Turismo vivencial:</b> Creación de un pequeño espacio para retiros y conexión con la naturaleza.</li>
-                        <li><b>Artesanía y productos:</b> Desarrollo de productos derivados del bambú.</li>
-                    </ul>
-                </div>
-                <div class="border-l-4 border-[#A1887F] pl-6 py-4 bg-stone-50 rounded-r-lg">
-                    <h3 class="text-2xl font-bold mb-3 text-stone-800">Parcela 2: El Refugio Agroecológico</h3>
-                    <p class="text-stone-600 mb-4">Esta parcela es un lienzo en blanco para un proyecto con alma, 100% alineado a tu nueva marca.</p>
-                    <h5 class="font-bold mb-2">Ideas de Proyecto:</h5>
-                    <ul class="list-disc list-inside text-stone-600 space-y-1">
-                        <li><b>Huerto de plantas medicinales:</b> Cultivo y venta de hierbas para infusiones y preparados.</li>
-                        <li><b>"Chacra experimental":</b> Un espacio para enseñar sobre agricultura orgánica y permacultura.</li>
-                        <li><b>Turismo místico y de bienestar:</b> Círculos de meditación, retiros de fin de semana.</li>
-                        <li><b>Centro de producción de guías:</b> El lugar físico donde nacen tus productos digitales.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="hoja-de-ruta" class="mb-24">
-             <h2 class="text-3xl font-bold text-center mb-2 text-[#4E342E]">Hoja de Ruta: Tus Próximos Pasos</h2>
-            <p class="text-lg text-stone-600 text-center mb-12 max-w-2xl mx-auto">El camino se hace al andar. Aquí tienes una secuencia clara y sin costo inicial para poner en marcha tu transformación.</p>
-            <div class="relative">
-                <div class="hidden md:block absolute top-0 left-1/2 w-0.5 h-full bg-stone-300"></div>
-                <div class="space-y-12 md:space-y-0">
-                    
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-8 flex justify-center md:justify-end">
-                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full card-hover-effect">
-                                <h4 class="text-xl font-bold text-[#8D6E63] mb-2">Fase 1: Producto Mínimo Viable</h4>
-                                <p class="text-stone-600">Elige tu documento más potente (ej. "Aprovechar 1000m²") y transfórmalo en una guía PDF atractiva usando Canva. Este será tu primer producto digital.</p>
-                            </div>
-                        </div>
-                         <div class="w-10 h-10 bg-[#8D6E63] rounded-full flex items-center justify-center text-white font-bold z-10 my-4 md:my-0">1</div>
-                        <div class="md:w-1/2 md:pl-8"></div>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row items-center">
-                         <div class="md:w-1/2 md:pr-8 hidden md:block"></div>
-                         <div class="w-10 h-10 bg-[#8D6E63] rounded-full flex items-center justify-center text-white font-bold z-10 my-4 md:my-0 order-first md:order-none">2</div>
-                        <div class="md:w-1/2 md:pl-8 flex justify-center md:justify-start">
-                             <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full card-hover-effect">
-                                <h4 class="text-xl font-bold text-[#8D6E63] mb-2">Fase 2: Posicionamiento Digital</h4>
-                                <p class="text-stone-600">Actualiza tus blogs. Añade un formulario de contacto y una sección "Recursos" para ofrecer tu guía (inicialmente gratis para captar emails). Redacta un artículo que conecte uno de tus ejes con un problema real.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-8 flex justify-center md:justify-end">
-                             <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full card-hover-effect">
-                                <h4 class="text-xl font-bold text-[#8D6E63] mb-2">Fase 3: Propuesta de Valor</h4>
-                                <p class="text-stone-600">Diseña una propuesta para un curso breve (ej. "Google Earth para turismo rural"). No necesitas grabarlo aún, solo tener el temario y objetivos claros. Rediseña tu perfil en plataformas freelance con este nuevo enfoque integral.</p>
-                            </div>
-                        </div>
-                         <div class="w-10 h-10 bg-[#8D6E63] rounded-full flex items-center justify-center text-white font-bold z-10 my-4 md:my-0">3</div>
-                        <div class="md:w-1/2 md:pl-8"></div>
-                    </div>
-
-                     <div class="flex flex-col md:flex-row items-center">
-                         <div class="md:w-1/2 md:pr-8 hidden md:block"></div>
-                         <div class="w-10 h-10 bg-[#8D6E63] rounded-full flex items-center justify-center text-white font-bold z-10 my-4 md:my-0 order-first md:order-none">4</div>
-                        <div class="md:w-1/2 md:pl-8 flex justify-center md:justify-start">
-                             <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full card-hover-effect">
-                                <h4 class="text-xl font-bold text-[#8D6E63] mb-2">Fase 4: Primer Contacto</h4>
-                                <p class="text-stone-600">Identifica una ONG local, una municipalidad pequeña o un emprendimiento turístico. Ofréceles una charla gratuita o una pequeña asesoría basada en tu nueva propuesta de valor. Tu objetivo es obtener un testimonio y validar tu oferta.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="recursos" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-10 text-[#4E342E]">Recursos y Formación Recomendada</h2>
-            <div class="max-w-4xl mx-auto overflow-x-auto">
-                <table class="w-full bg-white shadow-lg rounded-lg">
-                    <thead class="bg-[#A1887F] text-white">
-                        <tr>
-                            <th class="text-left p-4 font-bold">Curso Sugerido</th>
-                            <th class="text-left p-4 font-bold">Plataforma</th>
-                            <th class="text-left p-4 font-bold">Enfoque Principal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-stone-200">
-                            <td class="p-4">Google Earth Pro Aplicado</td>
-                            <td class="p-4">YouTube (Canales especializados)</td>
-                            <td class="p-4">Fortalece tu base de Geomática aplicada.</td>
-                        </tr>
-                        <tr class="border-b border-stone-200 bg-stone-50">
-                            <td class="p-4">Narrativa Digital (Storytelling)</td>
-                            <td class="p-4">Google Actívate / Coursera</td>
-                            <td class="p-4">Convierte datos e historia en relatos atractivos.</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                            <td class="p-4">Turismo Rural Sostenible</td>
-                            <td class="p-4">AulaFacil / EdX</td>
-                            <td class="p-4">Profesionaliza tus propuestas de turismo consciente.</td>
-                        </tr>
-                        <tr class="border-b border-stone-200 bg-stone-50">
-                            <td class="p-4">Diseño con Canva</td>
-                            <td class="p-4">Canva Design School</td>
-                            <td class="p-4">Crea tus guías y material promocional sin ser diseñador.</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4">Marketing de Contenidos</td>
-                            <td class="p-4">HubSpot Academy</td>
-                            <td class="p-4">Aprende a atraer clientes con el contenido que ya creas.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-stone-200 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center text-stone-600">
-            <p>&copy; 2025 Estrategia Profesional desarrollada para M. Leandro Bobadilla S.</p>
-            <p class="text-sm mt-2">Este es un plan dinámico. Utilízalo como guía, adáptalo y, sobre todo, da el primer paso.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = e.currentTarget.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                    if (!mobileMenu.classList.contains('hidden')) {
-                         mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
-
-            const incomeChartCtx = document.getElementById('incomeChart').getContext('2d');
-            const incomeChart = new Chart(incomeChartCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Productos Digitales', 'Servicios de Consultoría', 'Proyectos Territoriales'],
-                    datasets: [{
-                        label: 'Fuentes de Ingreso',
-                        data: [45, 35, 20],
-                        backgroundColor: [
-                            '#A1887F', // Muted Brown
-                            '#8D6E63', // Darker Muted Brown
-                            '#BCAAA4'  // Light Muted Brown
-                        ],
-                        borderColor: '#F8F5F2',
-                        borderWidth: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#44403c',
-                                font: {
-                                    size: 14,
-                                    family: 'Inter'
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + '%';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    cutout: '60%'
-                }
-            });
-        });
-    </script>
 </body>
 </html>
